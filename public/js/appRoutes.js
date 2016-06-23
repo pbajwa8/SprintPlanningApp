@@ -4,7 +4,15 @@ angular.module('appRoutes', []).config(['$routeProvider', '$locationProvider', f
 		// home page
 		.when('/', {
 			templateUrl: 'viewsfromthesix/home.html',
-			controller: 'MainController'
+			controller: 'HomeController'
+		})
+		.when('/signup', {
+			templateUrl: 'viewsfromthesix/signup.html',
+			controller: 'SignUpController'
+		})
+		.when('/add-iteration', {
+			templateUrl: 'viewsfromthesix/add-iteration.html',
+			controller: 'AddIterationController'
 		})
 
 	$locationProvider.html5Mode(true);
