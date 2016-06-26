@@ -21,14 +21,24 @@
 	<script src="js/controllers/HomeCtrl.js"></script>
 	<script src="js/controllers/SignUpCtrl.js"></script>
 	<script src="js/controllers/AddIterationCtrl.js"></script>
+	<script src="js/controllers/IndexCtrl.js"></script>
 </head>
 <body ng-app="sprintPlanningApp">
 <div class="container">
-	<nav class="navbar navbar-inverse">
-		<div class="navbar-header">
-			<a class="navbar-brand" href="/">Sprint Planning App</a>
-		</div>
-	</nav>
+
+	<div ng-controller="IndexController">
+		<nav class="navbar navbar-inverse">
+	  		<div class="container-fluid">
+			    <div class="navbar-header">
+			      <a class="navbar-brand" href="\">Sprint Planning App</a>
+		    	</div>
+			    <ul class="nav navbar-nav navbar-right" ng-show="showUserActions">
+			      <li><a href="\"><span class="glyphicon glyphicon-user"></span><font class="text-muted"> {{displayFirstName}} </font></a></li>
+			      <li><a ng-click="signOut()"><span class="glyphicon glyphicon-log-out"></span> Sign Out </a></li>
+			    </ul>
+	  		</div>
+		</nav>
+	</div>
 	<!-- ANGULAR DYNAMIC CONTENT -->
 	<div ng-view></div>
 

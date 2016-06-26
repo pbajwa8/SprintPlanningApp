@@ -14,7 +14,6 @@ angular.module('HomeCtrl', []).controller('HomeController', function($scope, $lo
       console.log("Error")
       console.log(errorCode)
       console.log(errorMessage)
-      return
     });
 
   };

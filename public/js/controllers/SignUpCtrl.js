@@ -33,14 +33,18 @@ angular.module('SignUpCtrl', []).controller('SignUpController', function($scope,
 	};
 
     firebase.auth().onAuthStateChanged(function(user) {
+
   		if (user) {
-  			firebase.database().ref('users/' + user.uid).set({
-	    		firstName: $scope.firstName,
-	    		lastName: $scope.lastName
-  			});
+  			var enteredFirstName = $scope.firstName;
+  			var enteredLastName = $scope.lastName;
+  			var enteredDisplayName = enteredFirstName.concat(" ", enteredLastName);
+  			user.updateProfile({
+  				displayName: enteredDisplayName
+			});
     		$location.path('/');
     		$scope.$apply();
   		}
+
 	});
 
 });

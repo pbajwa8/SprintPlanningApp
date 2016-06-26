@@ -1,1 +1,1 @@
-angular.module('sprintPlanningApp', ['ngRoute', 'appRoutes', 'HomeCtrl', 'SignUpCtrl', 'AddIterationCtrl']);
+angular.module('sprintPlanningApp', ['ngRoute', 'appRoutes', 'HomeCtrl', 'SignUpCtrl', 'AddIterationCtrl', 'IndexCtrl']);
