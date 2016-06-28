@@ -6,13 +6,13 @@ angular.module('appRoutes', []).config(['$routeProvider', '$locationProvider', f
 			templateUrl: 'viewsfromthesix/home.html',
 			controller: 'HomeController'
 		})
-		.when('/signup', {
-			templateUrl: 'viewsfromthesix/signup.html',
-			controller: 'SignUpController'
-		})
 		.when('/add-iteration', {
 			templateUrl: 'viewsfromthesix/add-iteration.html',
 			controller: 'AddIterationController'
+		})
+		.when('/start-meeting/:meetingID', {
+			templateUrl: 'viewsfromthesix/start-meeting.html',
+			controller: 'StartMeetingController'
 		})
 
 	$locationProvider.html5Mode(true);

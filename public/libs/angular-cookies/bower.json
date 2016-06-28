@@ -1,8 +1,8 @@
 {
-  "name": "angular-route",
+  "name": "angular-cookies",
   "version": "1.5.7",
   "license": "MIT",
-  "main": "./angular-route.js",
+  "main": "./angular-cookies.js",
   "ignore": [],
   "dependencies": {
     "angular": "1.5.7"
