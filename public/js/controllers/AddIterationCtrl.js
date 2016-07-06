@@ -3,14 +3,25 @@ angular.module('AddIterationCtrl', []).controller('AddIterationController', func
 	$scope.iterationTitle
 	$scope.startDate
 	$scope.endDate
-	$scope.teamMember1
-	$scope.teamMember2
-	$scope.teamMember3
-	$scope.teamMembers
-	
-	$scope.addIteration = function() {
+	$scope.teamSize
+	$scope.teamMembers = []
+	$scope.teamMemberEmails = []
 
-		$scope.teamMembers = [$scope.teamMember1, $scope.teamMember2, $scope.teamMember3];
+	firebase.auth().signInAnonymously().catch(function(error) {
+  		console.log("ERROR")
+	});
+
+	$scope.createTeamMembersArray = function() {
+
+		$scope.teamMembers = []
+
+		for (i = 0; i < $scope.teamSize; i++) {
+
+			$scope.teamMembers.push({id : i, email: " "})
+		}
+	}
+
+	$scope.addIteration = function() {
 
 		var user = firebase.auth().currentUser;
 
@@ -18,7 +29,11 @@ angular.module('AddIterationCtrl', []).controller('AddIterationController', func
 
 		var endDate = $scope.endDate.toString();
 
-		var itID = Iterations.addIteration(user.uid, $scope.iterationTitle, startDate, endDate, $scope.teamMembers)
+		for (i = 0; i < $scope.teamMembers.length; i++) {
+			$scope.teamMemberEmails.push($scope.teamMembers[i].email)
+		}
+
+		var itID = Iterations.addIteration(user.uid, $scope.iterationTitle, startDate, endDate, $scope.teamMemberEmails)
 
 		$cookies.put("current_iteration", itID);
 

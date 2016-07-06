@@ -1,4 +1,4 @@
-angular.module('IterationsService', []).factory('Iterations', function($q) {
+angular.module('IterationsService', []).factory('Iterations', function($q, $http) {
 
 	var generateUUID = function() {
 
@@ -20,7 +20,8 @@ angular.module('IterationsService', []).factory('Iterations', function($q) {
 			title: title,
 			startDate: startDate,
 			endDate: endDate,
-			team: team
+			team: team,
+			presentMembers: [owner]
 		})
 		.catch(function(error){
 			console.log(error)
@@ -28,6 +29,22 @@ angular.module('IterationsService', []).factory('Iterations', function($q) {
 
 		return iterationID
 
+	}
+
+	var addToPresentMembers = function(iterationID, email) {
+
+		getIteration(iterationID).then(function(data){
+
+			var currentPresentMembers = data.presentMembers;
+			currentPresentMembers.push(email)
+
+			firebase.database().ref('iterations/' + iterationID ).update({
+				presentMembers: currentPresentMembers
+			})
+			.catch(function(error){
+				console.log(error)
+			})
+    	})
 	}
 
 	var getIteration = function(iterationID) {
@@ -46,10 +63,43 @@ angular.module('IterationsService', []).factory('Iterations', function($q) {
 		return deferred.promise;
 	}
 
+	var sendMeetingInvite = function(teamMemberEmail, iterationID) {
+
+		var baseUrl = "localhost:8080/"
+
+		var urlToSend = baseUrl + "join-meeting/" + iterationID
+
+		var data = {email: teamMemberEmail, url: urlToSend};
+
+		var config = {
+                headers : {
+                    'Content-Type': 'application/json'
+                }
+            }
+
+		$http.post('/send-invite', data, config)
+			.success(function (data, status, headers, config) {
+                console.log("SUCCESS!!!")
+            })
+            .error(function (data, status, header, config) {
+            	console.log("ERROR!!!")
+            });
+	}
+
+	var sendMeetingInvites = function(teamMembers, iterationID) {
+
+		for (i = 0; i < teamMembers.length; i++) {
+			sendMeetingInvite(teamMembers[i], iterationID)
+		}
+
+	}
+
 	return {
 
 		addIteration: addIteration,
-		getIteration: getIteration
+		getIteration: getIteration,
+		sendMeetingInvites: sendMeetingInvites,
+		addToPresentMembers: addToPresentMembers
 
 	}
 

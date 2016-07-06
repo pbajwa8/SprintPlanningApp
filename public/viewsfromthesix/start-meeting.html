@@ -7,7 +7,12 @@
 		<h4>{{startDate}}</h4>
 		<h4>{{endDate}}</h4>
 		<ul class="list-group">
-  			<li class="list-group-item" ng-repeat="member in teamMembers">{{member}}</li>
+  			<li class="list-group-item" ng-repeat="member in teamMembers">
+  				<text>{{member}}</text>
+  				<span ng-if="checkMemberStatus(member)" class="glyphicon glyphicon-ok">
+  			</li>
 		</ul>
+		<button class="btn btn-success" ng-click="inviteTeam()" ng-hide="teamPresent">Invite Team</button>
+		<button class="btn btn-success" ng-show="teamPresent" ng-click="startMeeting()">Start Meeting</button>
 	</div>
 </div>

@@ -14,6 +14,14 @@ angular.module('appRoutes', []).config(['$routeProvider', '$locationProvider', f
 			templateUrl: 'viewsfromthesix/start-meeting.html',
 			controller: 'StartMeetingController'
 		})
+		.when('/join-meeting/:meetingID', {
+			templateUrl: 'viewsfromthesix/join-meeting.html',
+			controller: 'JoinMeetingController'
+		})
+		.when('/user-stories/:meetingID', {
+			templateUrl: 'viewsfromthesix/user-stories.html',
+			controller: 'UserStoriesController'
+		})
 
 	$locationProvider.html5Mode(true);
 
