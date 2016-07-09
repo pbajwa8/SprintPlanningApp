@@ -16,4 +16,10 @@ angular.module('UserStoriesCtrl', []).controller('UserStoriesController', functi
       
     })
 
+    $scope.startPolling = function() {
+
+    	Iterations.startStoryPolling(currentIterationID);
+    	
+    }
+
 });

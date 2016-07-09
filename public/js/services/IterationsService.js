@@ -15,13 +15,20 @@ angular.module('IterationsService', []).factory('Iterations', function($q, $http
 
 		var iterationID = generateUUID();
 
+		var storiesObject = {
+			"polling": false,
+			"stories": {}
+		}
+
 		firebase.database().ref('iterations/' + iterationID ).set({
 			owner: owner,
 			title: title,
 			startDate: startDate,
 			endDate: endDate,
 			team: team,
-			presentMembers: [owner]
+			presentMembers: [owner],
+			meetingStarted: false,
+			storiesObject: storiesObject
 		})
 		.catch(function(error){
 			console.log(error)
@@ -94,13 +101,74 @@ angular.module('IterationsService', []).factory('Iterations', function($q, $http
 
 	}
 
+	var startMeeting = function(iterationID) {
+
+		firebase.database().ref('iterations/' + iterationID ).update({
+			meetingStarted: true
+		})
+		.catch(function(error){
+			console.log(error)
+		})
+	}
+
+	var getStories = function(iterationID) {
+
+		var deferred = $q.defer();
+
+		firebase.database().ref('iterations/' + iterationID + '/storiesObject').once("value")
+			.then(function(dataSnapshot) {
+				var storiesObject = dataSnapshot.val();
+				deferred.resolve(storiesObject);
+			})
+			.catch(function(error) {
+				deferred.reject(error);
+			});
+
+		return deferred.promise;
+	}
+
+	var startStoryPolling = function(iterationID) {
+
+		getStories(iterationID).then(function(data){
+			var storiesObject = data;
+
+			storiesObject.polling = true;
+
+			firebase.database().ref('iterations/' + iterationID ).update({
+				storiesObject: storiesObject
+			})
+			.catch(function(error){
+				console.log(error)
+			})
+    	})
+	}
+
+	var stopStoryPolling = function(iterationID) {
+
+		getStories(iterationID).then(function(data){
+			var storiesObject = data;
+
+			storiesObject.polling = false;
+
+			firebase.database().ref('iterations/' + iterationID ).update({
+				storiesObject: storiesObject
+			})
+			.catch(function(error){
+				console.log(error)
+			})
+    	})
+	}
+
 	return {
 
 		addIteration: addIteration,
 		getIteration: getIteration,
 		sendMeetingInvites: sendMeetingInvites,
-		addToPresentMembers: addToPresentMembers
-
+		startMeeting: startMeeting,
+		addToPresentMembers: addToPresentMembers,
+		getStories: getStories,
+		startStoryPolling: startStoryPolling,
+		stopStoryPolling: stopStoryPolling
 	}
 
 });

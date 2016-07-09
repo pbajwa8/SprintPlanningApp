@@ -3,10 +3,12 @@ angular.module('StartMeetingCtrl', []).controller('StartMeetingController', func
     $scope.iterationTitle;
     $scope.startDate;
     $scope.endDate;
+    $scope.owner;
     $scope.teamMembers = []
     $scope.presentTeamMembers = []
     $scope.teamInvited = false
     $scope.teamPresent = false
+    $scope.isOwner = false
 
     currentIterationID = $cookies.get("current_iteration");
     
@@ -15,18 +17,28 @@ angular.module('StartMeetingCtrl', []).controller('StartMeetingController', func
         currentIterationID = $location.path().split('/')[2]
     }
 
+    var checkOwner = function() {
+      var user = firebase.auth().currentUser;
+      if (user) {
+        if (user.uid == $scope.owner) {
+          $scope.isOwner = true;
+        }
+      }
+    }
+
     Iterations.getIteration(currentIterationID).then(function(data){
 
       $scope.iterationTitle = data.title
       $scope.startDate = data.startDate
       $scope.endDate = data.endDate
       $scope.teamMembers = data.team
+      $scope.owner = data.owner
+
+      checkOwner()
       
     })
 
     var checkMeetingStatus = function() {
-
-      $scope.$apply()
 
       if ($scope.teamMembers.length == 0) {
         return;
@@ -63,8 +75,15 @@ angular.module('StartMeetingCtrl', []).controller('StartMeetingController', func
     }
 
     $scope.startMeeting = function() {
-      $location.path('/user-stories/' + currentIterationID)
+      Iterations.startMeeting(currentIterationID);
     }
+
+    firebase.database().ref('iterations/' + currentIterationID + '/meetingStarted').on('value', function(data) {
+        if (data.val() == true) {
+          $location.path('/user-stories/' + currentIterationID)
+          $scope.$apply()
+        }
+    });
 
   	firebase.auth().onAuthStateChanged(function(user) {
 

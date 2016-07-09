@@ -12,7 +12,9 @@
   				<span ng-if="checkMemberStatus(member)" class="glyphicon glyphicon-ok">
   			</li>
 		</ul>
-		<button class="btn btn-success" ng-click="inviteTeam()" ng-hide="teamPresent">Invite Team</button>
-		<button class="btn btn-success" ng-show="teamPresent" ng-click="startMeeting()">Start Meeting</button>
+		<div ng-show="isOwner">
+			<button class="btn btn-success" ng-click="inviteTeam()" ng-hide="teamPresent">Invite Team</button>
+			<button class="btn btn-success" ng-show="teamPresent" ng-click="startMeeting()">Start Meeting</button>
+		</div>
 	</div>
 </div>
