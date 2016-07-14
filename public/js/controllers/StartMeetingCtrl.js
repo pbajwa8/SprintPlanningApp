@@ -80,8 +80,8 @@ angular.module('StartMeetingCtrl', []).controller('StartMeetingController', func
 
     firebase.database().ref('iterations/' + currentIterationID + '/meetingStarted').on('value', function(data) {
         if (data.val() == true) {
-          $location.path('/user-stories/' + currentIterationID)
-          $scope.$apply()
+          $location.path('/user-stories/' + currentIterationID);
+          $scope.$apply();
         }
     });
 

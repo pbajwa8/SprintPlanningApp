@@ -17,7 +17,8 @@ angular.module('IterationsService', []).factory('Iterations', function($q, $http
 
 		var storiesObject = {
 			"polling": false,
-			"stories": {}
+			"finishedPolling": false,
+			"finishedReview": false
 		}
 
 		firebase.database().ref('iterations/' + iterationID ).set({
@@ -58,7 +59,7 @@ angular.module('IterationsService', []).factory('Iterations', function($q, $http
 
 		var deferred = $q.defer();
 
-		firebase.database().ref('iterations/' + iterationID).orderByKey().once("value")
+		firebase.database().ref('iterations/' + iterationID).once("value")
 			.then(function(dataSnapshot) {
 				var iteration = dataSnapshot.val();
 				deferred.resolve(iteration);
@@ -159,6 +160,31 @@ angular.module('IterationsService', []).factory('Iterations', function($q, $http
     	})
 	}
 
+	var addStory = function(iterationID, title) {
+
+		firebase.database().ref('iterations/' + iterationID + '/storiesObject/' + "stories").push({title})
+			.catch(function(error){
+				console.log(error)
+			})
+	}
+
+	var saveStories = function(iterationID, stories) {
+		for (var i = 0; i < stories.length; i++) {
+			addStory(iterationID, stories[i])
+		}
+	}
+
+	var endStoryPolling = function(iterationID) {
+
+		firebase.database().ref('iterations/' + iterationID + '/storiesObject').update({
+			finishedPolling: true
+		})
+		.catch(function(error){
+			console.log(error)
+		})
+
+	}
+
 	return {
 
 		addIteration: addIteration,
@@ -168,7 +194,9 @@ angular.module('IterationsService', []).factory('Iterations', function($q, $http
 		addToPresentMembers: addToPresentMembers,
 		getStories: getStories,
 		startStoryPolling: startStoryPolling,
-		stopStoryPolling: stopStoryPolling
+		stopStoryPolling: stopStoryPolling,
+		saveStories: saveStories,
+		endStoryPolling: endStoryPolling
 	}
 
 });
