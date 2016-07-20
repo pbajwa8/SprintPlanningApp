@@ -1,1 +1,21 @@
-<h1>Hello</h1>
+<div class="panel panel-default">
+	<div class="panel-heading">
+		<h3 class="panel-title">Review Stories</h3>
+	</div>
+
+	<div class="panel-body">
+		<h3 class="text-center">{{iterationTitle}}</h3>
+		<h4 class="text-center">{{startDate}}</h4>
+		<h4 class="text-center">{{endDate}}</h4>
+		<div>
+			<form role="form" ng-submit="confirmStories()">
+				<ul class="list-group">
+					<li class="list-group-item" ng-repeat="(storyId, value) in workingStories">
+						<input type="text" class="form-control" id="title" ng-model="value.title">
+					</li>
+				</ul>
+				<button type="submit" class="btn btn-success">Confirm</button>
+			</form>
+		</div>
+	</div>
+</div>

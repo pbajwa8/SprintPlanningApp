@@ -4,21 +4,14 @@
 	</div>
 	<div class="panel-body">
 
-		<h3>{{iterationTitle}}</h3>
-		<h4>{{startDate}}</h4>
-		<h4>{{endDate}}</h4>
-
-		<div ng-show="isOwner">
-			<timer countdown="120" interval="1000" autostart="false" ng-show="polling">
-				<div class="progress progress-striped active">
-				{{mminutes}} minute{{minutesS}}: {{sseconds}} second{{secondsS}}
-				<div class="bar"></div> </div>
-			</timer>
-		</div>
+		<h3 class="text-center">{{iterationTitle}}</h3>
+		<h4 class="text-center">{{startDate}}</h4>
+		<h4 class="text-center">{{endDate}}</h4>
 
 		<div ng-show="isOwner">
 			<button ng-hide="polling" class="btn btn-success" ng-click="startPolling()">Start Polling</button>
 			<button ng-show="polling" class="btn btn-success" ng-click="resetPolling()">Restart Polling</button>
+			<button ng-show="polling" class="btn btn-success" ng-click="endPolling()">Stop Polling</button>
 		</div>
 		
 		<div ng-hide="isOwner">

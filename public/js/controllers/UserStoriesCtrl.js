@@ -10,7 +10,7 @@ angular.module('UserStoriesCtrl', []).controller('UserStoriesController', functi
   $scope.storyTitle
   $scope.memberStories = []
 
-	currentIterationID = $location.path().split('/')[2];
+	var currentIterationID = $location.path().split('/')[2];
 
   var checkOwner = function() {
     var user = firebase.auth().currentUser;
@@ -20,16 +20,6 @@ angular.module('UserStoriesCtrl', []).controller('UserStoriesController', functi
       }
     }
   }
-
-  $scope.startTimer = function (){
-    $scope.$broadcast('timer-start');
-  };
-  
-  $scope.resetTimer = function (){
-    $scope.storyTitle = ""
-    $scope.memberStories = []
-    $scope.$broadcast('timer-clear');
-  };
 
   Iterations.getIteration(currentIterationID).then(function(data){
 
@@ -45,11 +35,11 @@ angular.module('UserStoriesCtrl', []).controller('UserStoriesController', functi
 
   firebase.database().ref('iterations/' + currentIterationID + '/storiesObject')
   .orderByKey().equalTo('polling').on('value', function(data) {
-      $scope.polling = data.val().polling;
-      if ($scope.polling == true) {
-          $scope.startTimer();
+      if (data.val().polling == false) {
+          $scope.storyTitle = "";
+          $scope.memberStories = [];
       } else {
-          $scope.resetTimer();
+          $scope.polling = true;
       }
       $scope.$apply();
   });
@@ -59,7 +49,13 @@ angular.module('UserStoriesCtrl', []).controller('UserStoriesController', functi
   }
 
   $scope.resetPolling = function() {
+    $scope.storyTitle = ""
+    $scope.memberStories = []
     Iterations.stopStoryPolling(currentIterationID);
+  }
+
+  $scope.endPolling = function() {
+    Iterations.endStoryPolling(currentIterationID);
   }
 
   $scope.addStory = function() {
@@ -67,26 +63,15 @@ angular.module('UserStoriesCtrl', []).controller('UserStoriesController', functi
     $scope.storyTitle = ""
   }
 
-  $scope.$on('timer-stopped', function (event, args) {
-    if ($scope.memberStories.length > 0) {
-        $scope.saveStories();
-        Iterations.stopStoryPolling(currentIterationID);
-        Iterations.endStoryPolling(currentIterationID);
-    }
-  });
-
-  $scope.saveStories = function() {
-    Iterations.saveStories(currentIterationID, $scope.memberStories);
-  }
-
-  firebase.database().ref('iterations/' + currentIterationID + '/storiesObject/finishedPolling' )
+  firebase.database().ref('iterations/' + currentIterationID + '/storiesObject/finishedPolling')
   .on('value', function(data){
     if (data.val() == true) {
-      $location.path('/review-stories/' + currentIterationID)
-      $scope.$apply();
-    }
-
+        Iterations.saveStories(currentIterationID, $scope.memberStories)
+        Iterations.stopStoryPolling(currentIterationID)
+        $location.path('/review-stories/' + currentIterationID)
+        $scope.$apply()
+    } 
   })
-   
 
+  
 });

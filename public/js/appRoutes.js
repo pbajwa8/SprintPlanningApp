@@ -26,6 +26,10 @@ angular.module('appRoutes', []).config(['$routeProvider', '$locationProvider', f
 			templateUrl: 'viewsfromthesix/review-stories.html',
 			controller: 'ReviewStoriesController'
 		})
+		.when('/story-tasks/:meetingID', {
+			templateUrl: 'viewsfromthesix/story-tasks.html',
+			controller: 'StoryTasksController'
+		})
 
 	$locationProvider.html5Mode(true);
 

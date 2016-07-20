@@ -11,7 +11,7 @@ angular.module('StartMeetingCtrl', []).controller('StartMeetingController', func
     $scope.isOwner = false
 
     currentIterationID = $cookies.get("current_iteration");
-    
+
     if (currentIterationID == null || currentIterationID == undefined) {
         $cookies.put("current_iteration", $location.path().split('/')[2]);
         currentIterationID = $location.path().split('/')[2]
