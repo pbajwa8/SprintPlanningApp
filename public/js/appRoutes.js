@@ -30,10 +30,6 @@ angular.module('appRoutes', []).config(['$routeProvider', '$locationProvider', f
 			templateUrl: 'viewsfromthesix/story-tasks.html',
 			controller: 'StoryTasksController'
 		})
-		.when('/task-polling/:meetingID/:storyID', {
-			templateUrl: 'viewsfromthesix/task-polling.html',
-			controller: 'TaskPollingController'
-		})
 
 	$locationProvider.html5Mode(true);
 

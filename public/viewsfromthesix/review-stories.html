@@ -7,7 +7,7 @@
 		<h3 class="text-center">{{iterationTitle}}</h3>
 		<h4 class="text-center">{{startDate}}</h4>
 		<h4 class="text-center">{{endDate}}</h4>
-		<div ng-show="isOwner">
+		<div>
 			<form role="form" ng-submit="confirmStories()">
 				<ul class="list-group">
 					<li class="list-group-item" ng-repeat="(storyId, value) in workingStories">
@@ -16,13 +16,6 @@
 				</ul>
 				<button type="submit" class="btn btn-success">Confirm</button>
 			</form>
-		</div>
-		<div ng-hide="isOwner">
-			<ul class="list-group">
-				<li class="list-group-item" ng-repeat="(storyId, value) in workingStories">
-					{{value.title}}
-				</li>
-			</ul>
 		</div>
 	</div>
 </div>

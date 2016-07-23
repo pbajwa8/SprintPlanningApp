@@ -18,8 +18,7 @@ angular.module('IterationsService', []).factory('Iterations', function($q, $http
 		var storiesObject = {
 			"polling": false,
 			"finishedPolling": false,
-			"finishedReview": false,
-			"currentStory": false
+			"finishedReview": false
 		}
 
 		firebase.database().ref('iterations/' + iterationID ).set({
@@ -151,12 +150,8 @@ angular.module('IterationsService', []).factory('Iterations', function($q, $http
 
 	var saveStory = function(iterationID, title) {
 
-		firebase.database().ref('iterations/' + iterationID + '/storiesObject/' + "stories").push({
-			title: title,
-			polling: false,
-			finishedPolling: false
-		})
-		.catch(function(error){
+		firebase.database().ref('iterations/' + iterationID + '/storiesObject/' + "stories").push({title})
+			.catch(function(error){
 				return error
 		})
 	}
@@ -219,59 +214,6 @@ angular.module('IterationsService', []).factory('Iterations', function($q, $http
 		})
 	}
 
-	var startTaskPolling = function(iterationID, storyID) {
-		firebase.database().ref('iterations/' + iterationID + '/storiesObject/stories/' + storyID).update({
-			polling: true
-		})
-		.catch(function(error){
-			console.log(error)
-		})
-	}
-
-	var stopTaskPolling = function(iterationID, storyID) {
-		firebase.database().ref('iterations/' + iterationID + '/storiesObject/stories/' + storyID).update({
-			polling: false
-		})
-		.catch(function(error){
-			console.log(error)
-		})
-	}
-
-	var endTaskPolling = function(iterationID, storyID) {
-		firebase.database().ref('iterations/' + iterationID + '/storiesObject/stories/' + storyID).update({
-			finishedPolling: true
-		})
-		.catch(function(error){
-			console.log(error)
-		})
-	}
-
-	var updateCurrentStory = function(iterationID, storyID) {
-		firebase.database().ref('iterations/' + iterationID + '/storiesObject').update({
-			currentStory: storyID
-		})
-		.catch(function(error){
-			console.log(error)
-		})
-	}
-
-	var saveTask = function(iterationID, storyID, title) {
-
-		firebase.database().ref('iterations/' + iterationID + '/storiesObject/stories/' + storyID + '/tasks').push({title})
-		.catch(function(error){
-			return error
-		})
-	}
-
-	var saveTasks = function(iterationID, storyID, tasks) {
-
-		for (var i = 0; i < tasks.length; i++) {
-			var title = tasks[i];
-			saveTask(iterationID, storyID, title)
-		}
-
-	}
-
 	return {
 
 		addIteration: addIteration,
@@ -286,12 +228,7 @@ angular.module('IterationsService', []).factory('Iterations', function($q, $http
 		endStoryPolling: endStoryPolling,
 		getStoriesTitlesObject: getStoriesTitlesObject,
 		updateStories: updateStories,
-		endStoryReview: endStoryReview,
-		startTaskPolling: startTaskPolling,
-		stopTaskPolling: stopTaskPolling,
-		endTaskPolling: endTaskPolling,
-		updateCurrentStory: updateCurrentStory,
-		saveTasks: saveTasks
+		endStoryReview: endStoryReview
 	}
 
 });

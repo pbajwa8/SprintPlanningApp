@@ -3,6 +3,7 @@ angular.module('UserStoriesCtrl', []).controller('UserStoriesController', functi
 	$scope.iterationTitle
 	$scope.startDate
 	$scope.endDate
+	$scope.teamMembers
   $scope.owner
   $scope.isOwner
   $scope.polling
@@ -25,6 +26,7 @@ angular.module('UserStoriesCtrl', []).controller('UserStoriesController', functi
     $scope.iterationTitle = data.title
     $scope.startDate = data.startDate
     $scope.endDate = data.endDate
+    $scope.teamMembers = data.team
     $scope.owner = data.owner
 
     checkOwner();
