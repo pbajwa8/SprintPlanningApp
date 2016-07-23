@@ -74,7 +74,7 @@ angular.module('IterationsService', []).factory('Iterations', function($q, $http
 
 	var sendMeetingInvite = function(teamMemberEmail, iterationID) {
 
-		var baseUrl = "localhost:8080/"
+		var baseUrl = "https://sprint-planning-app.firebaseapp.com/"
 
 		var urlToSend = baseUrl + "join-meeting/" + iterationID
 
@@ -86,7 +86,7 @@ angular.module('IterationsService', []).factory('Iterations', function($q, $http
                 }
             }
 
-		$http.post('/send-invite', data, config)
+		$http.post('https://desolate-dawn-79424.herokuapp.com/api/send-invite', data, config)
 			.success(function (data, status, headers, config) {
                 console.log("SUCCESS!!!")
             })
