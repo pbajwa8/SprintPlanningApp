@@ -1,0 +1,26 @@
+<div class="panel panel-default">
+	<div class="panel-heading">
+		<h3 class="panel-title">Overview</h3>
+	</div>
+
+	<div class="panel-body">
+		<h3 class="text-center">{{iterationTitle}}</h3>
+		<h4 class="text-center">{{startDate}}</h4>
+		<h4 class="text-center">{{endDate}}</h4>
+		<div>
+			<ul>
+				<li class="list-group-item" ng-repeat="(storyId, value) in stories">
+				<div class="row">
+					<div class="col-md-10">
+						{{value.title}}
+					</div>
+					<div class="col-md-2">
+						<button type="submit" class="btn btn-success" ng-click="startPolling(storyId)">Start Polling</button>
+					</div>
+				</div>
+				</li>
+			</ul>
+		</div>
+	</div>
+
+</div>
