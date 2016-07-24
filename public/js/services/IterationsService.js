@@ -74,9 +74,7 @@ angular.module('IterationsService', []).factory('Iterations', function($q, $http
 
 	var sendMeetingInvite = function(teamMemberEmail, iterationID) {
 
-		var baseUrl = "localhost:8080/"
-
-		var urlToSend = baseUrl + "join-meeting/" + iterationID
+		var urlToSend = "http://sprintplanning.herokuapp.com/join-meeting/" + iterationID
 
 		var data = {email: teamMemberEmail, url: urlToSend};
 
