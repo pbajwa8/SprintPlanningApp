@@ -42,7 +42,8 @@ angular.module('StoryEstimationPollingCtrl', []).controller('StoryEstimationPoll
 
   	firebase.database().ref('iterations/' + currentIterationID + '/storiesObject/stories/' + currentStoryID + "/estimationPolling")
   	.on('value', function(data){
-		if (data.val() == false) {
+		    if (data.val() == false) {
+          $scope.polling = false
           $scope.userEstimate = 0
       	} else {
           $scope.polling = true;
@@ -59,13 +60,18 @@ angular.module('StoryEstimationPollingCtrl', []).controller('StoryEstimationPoll
   		Iterations.endEstimationPolling(currentIterationID, currentStoryID);
   	}
 
+    $scope.startPolling = function() {
+      Iterations.startEstimationPolling(currentIterationID, currentStoryID);
+    }
+
   	firebase.database().ref('iterations/' + currentIterationID + '/storiesObject/stories/' + currentStoryID + "/finishedEstimationPolling")
   	.on('value', function(data){
 		if (data.val() == true) {
-			Iterations.saveEstimation(currentIterationID, currentStoryID, $scope.userEstimate)
-	        Iterations.stopEstimationPolling(currentIterationID, currentStoryID)
-	        $location.path('/story-estimation-review/' + currentIterationID + '/' + currentStoryID)
-	        $scope.$apply()
+		    Iterations.saveEstimation(currentIterationID, currentStoryID, parseInt($scope.userEstimate))
+        Iterations.saveCalculatedEstimation(currentIterationID, currentStoryID)
+        Iterations.stopEstimationPolling(currentIterationID, currentStoryID)
+        $location.path('/story-estimation-review/' + currentIterationID + '/' + currentStoryID)
+        $scope.$apply()
 	  	} 
   	})
 

@@ -52,7 +52,6 @@ angular.module('ReviewTasksCtrl', []).controller('ReviewTasksController', functi
   	firebase.database().ref('iterations/' + currentIterationID + '/storiesObject/stories/' + currentStoryID + "/finishedReview")
     .on('value', function(data) {
         if (data.val() == true) {
-          Iterations.startEstimationPolling(currentIterationID, currentStoryID);
           $location.path('/story-estimation-polling/' + currentIterationID + "/" + currentStoryID);
           $scope.$apply();
         }

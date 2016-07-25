@@ -13,8 +13,16 @@
 				<div class="row">
 					<div class="col-md-10">
 						{{value.title}}
+						<ul ng-show="value.tasks">
+							<li ng-repeat="(taskId, task) in value.tasks">
+								{{task.title}}
+							</li>
+						</ul>
 					</div>
-					<div class="col-md-2" ng-show="isOwner">
+					<div class ="col-md-1" ng-show="value.estimation">
+						Size: {{value.estimation}}
+					</div>
+					<div class="col-md-1" ng-show="isOwner">
 						<button ng-hide="value.finishedEstimationReview" type="submit" class="btn btn-success" ng-click="startPolling(storyId)">Start Polling</button>
 					</div>
 				</div>

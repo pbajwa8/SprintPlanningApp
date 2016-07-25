@@ -43,7 +43,7 @@ angular.module('appRoutes', []).config(['$routeProvider', '$locationProvider', f
 			controller: 'StoryEstimationPollingController'
 		})
 		.when('/story-estimation-review/:meetingID/:storyID', {
-			templateUrl: 'viewsfromthesix/story-estimation-polling.html',
+			templateUrl: 'viewsfromthesix/story-estimation-review.html',
 			controller: 'StoryEstimationReviewController'
 		})
 

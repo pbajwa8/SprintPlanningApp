@@ -156,7 +156,8 @@ angular.module('IterationsService', []).factory('Iterations', function($q, $http
 			finishedReview: false,
 			estimationPolling: false,
 			finishedEstimationPolling: false,
-			finishedEstimationReview: false
+			finishedEstimationReview: false,
+			estimation: 0
 		})
 		.catch(function(error){
 				return error
@@ -370,10 +371,12 @@ angular.module('IterationsService', []).factory('Iterations', function($q, $http
 
 	var saveEstimation = function(iterationID, storyID, estimation) {
 
-		firebase.database().ref('iterations/' + iterationID + '/storiesObject/stories/' + storyID + '/estimations').push({estimation})
-		.catch(function(error){
-			console.log(error)
-		})
+		if (estimation != 0) {
+			firebase.database().ref('iterations/' + iterationID + '/storiesObject/stories/' + storyID + '/estimations').push({estimation})
+			.catch(function(error){
+				console.log(error)
+			})
+		}
 
 	}
 
@@ -391,7 +394,7 @@ angular.module('IterationsService', []).factory('Iterations', function($q, $http
 				updateEstimation(iterationID, storyID, average);
 			})
 			.catch(function(error) {
-				deferred.reject(error);
+				console.log("error")
 			});
 
 	}
@@ -403,9 +406,25 @@ angular.module('IterationsService', []).factory('Iterations', function($q, $http
 		.catch(function(error){
 			console.log(error)
 		})
-
-
 	}
+
+	var getEstimation = function(iterationID, storyID) {
+
+		var deferred = $q.defer();
+
+		firebase.database().ref('iterations/' + iterationID + '/storiesObject/stories/' + storyID + '/estimation').once("value")
+			.then(function(dataSnapshot) {
+				var estimation = dataSnapshot.val();
+				console.log(estimation)
+				deferred.resolve(estimation)
+			})
+			.catch(function(error) {
+				deferred.reject(error)
+			});
+
+		return deferred.promise;
+	}
+
 
 	return {
 
@@ -431,13 +450,14 @@ angular.module('IterationsService', []).factory('Iterations', function($q, $http
 		updateTasks: updateTasks,
 		getTasks: getTasks,
 		endTaskReview: endTaskReview,
-		startEstimationPolling,
-		stopEstimationPolling,
-		endEstimationPolling,
-		endEstimationReview,
-		saveEstimation,
-		saveCalculatedEstimation,
-		updateEstimation
+		startEstimationPolling: startEstimationPolling,
+		stopEstimationPolling: stopEstimationPolling,
+		endEstimationPolling: endEstimationPolling,
+		endEstimationReview: endEstimationReview,
+		saveEstimation: saveEstimation,
+		saveCalculatedEstimation: saveCalculatedEstimation,
+		updateEstimation: updateEstimation,
+		getEstimation: getEstimation
 	}
 
 });
