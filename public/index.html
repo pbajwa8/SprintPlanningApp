@@ -9,7 +9,21 @@
 	<!-- CSS -->
 	<link rel="stylesheet" href="libs/bootstrap/dist/css/bootstrap.min.css">
 	<link rel="stylesheet" href="css/style.css"> <!-- custom styles -->
+	
 	<!-- JS -->
+
+	<script src="https://www.gstatic.com/firebasejs/live/3.0/firebase.js"></script>
+	<script>
+	  // Initialize Firebase
+	  var config = {
+	    apiKey: "AIzaSyA15p5CK9J0DvCBNj5IPcWTVnw9VFvWoyg",
+	    authDomain: "sprint-planning-app.firebaseapp.com",
+	    databaseURL: "https://sprint-planning-app.firebaseio.com",
+	    storageBucket: "",
+	  };
+	  firebase.initializeApp(config);
+	</script>
+
 	<script src="libs/angular/angular.min.js"></script>
 	<script src="libs/angular-route/angular-route.min.js"></script>
 	<script   src="https://code.jquery.com/jquery-2.2.4.min.js"   integrity="sha256-BbhdlvQf/xTY9gja0Dq3HiwQF8LaCRTXxZKRutelT44="   crossorigin="anonymous"></script>
@@ -33,6 +47,7 @@
 
 </head>
 <body ng-app="sprintPlanningApp">
+
 <div class="container">
 
 	<div>
@@ -48,17 +63,6 @@
 	<div ng-view></div>
 
 </div>
-</body>
-<script src="https://www.gstatic.com/firebasejs/live/3.0/firebase.js"></script>
-<script>
-  // Initialize Firebase
-  var config = {
-    apiKey: "AIzaSyA15p5CK9J0DvCBNj5IPcWTVnw9VFvWoyg",
-    authDomain: "sprint-planning-app.firebaseapp.com",
-    databaseURL: "https://sprint-planning-app.firebaseio.com",
-    storageBucket: "",
-  };
-  firebase.initializeApp(config);
-</script>
 
+</body>
 </html>
