@@ -14,8 +14,8 @@
 					<div class="col-md-10">
 						{{value.title}}
 					</div>
-					<div class="col-md-2">
-						<button type="submit" class="btn btn-success" ng-click="startPolling(storyId)">Start Polling</button>
+					<div class="col-md-2" ng-show="isOwner">
+						<button ng-hide="value.finishedEstimationReview" type="submit" class="btn btn-success" ng-click="startPolling(storyId)">Start Polling</button>
 					</div>
 				</div>
 				</li>

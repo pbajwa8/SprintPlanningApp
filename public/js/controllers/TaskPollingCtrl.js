@@ -1,11 +1,12 @@
 angular.module('TaskPollingCtrl', []).controller('TaskPollingController', function($scope, $location, Iterations) {
 
-	$scope.iterationTitle
-	$scope.startDate
-	$scope.endDate
+	  $scope.iterationTitle
+	  $scope.startDate
+	  $scope.endDate
   	$scope.owner
   	$scope.isOwner
   	$scope.polling
+    $scope.storyTitle
 
   	$scope.taskTitle
   	$scope.userTasks = []
@@ -32,6 +33,10 @@ angular.module('TaskPollingCtrl', []).controller('TaskPollingController', functi
 	    checkOwner();
     
   	})
+
+    Iterations.getStoriesTitlesObject(currentIterationID, currentStoryID).then(function(data){
+      $scope.storyTitle = data[currentStoryID].title;
+    })
 
   	firebase.database().ref('iterations/' + currentIterationID + '/storiesObject/stories/' + currentStoryID + "/polling")
   	.on('value', function(data){
@@ -62,10 +67,9 @@ angular.module('TaskPollingCtrl', []).controller('TaskPollingController', functi
   	firebase.database().ref('iterations/' + currentIterationID + '/storiesObject/stories/' + currentStoryID + "/finishedPolling")
   	.on('value', function(data){
 		if (data.val() == true) {
-			console.log($scope.userTasks)
 	        Iterations.saveTasks(currentIterationID, currentStoryID, $scope.userTasks)
 	        Iterations.stopTaskPolling(currentIterationID, currentStoryID)
-	        $location.path('/story-tasks/' + currentIterationID)
+	        $location.path('/review-tasks/' + currentIterationID + '/' + currentStoryID)
 	        $scope.$apply()
 	  	} 
   	})

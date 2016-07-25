@@ -34,6 +34,18 @@ angular.module('appRoutes', []).config(['$routeProvider', '$locationProvider', f
 			templateUrl: 'viewsfromthesix/task-polling.html',
 			controller: 'TaskPollingController'
 		})
+		.when('/review-tasks/:meetingID/:storyID', {
+			templateUrl: 'viewsfromthesix/review-tasks.html',
+			controller: 'ReviewTasksController'
+		})
+		.when('/story-estimation-polling/:meetingID/:storyID', {
+			templateUrl: 'viewsfromthesix/story-estimation-polling.html',
+			controller: 'StoryEstimationPollingController'
+		})
+		.when('/story-estimation-review/:meetingID/:storyID', {
+			templateUrl: 'viewsfromthesix/story-estimation-polling.html',
+			controller: 'StoryEstimationReviewController'
+		})
 
 	$locationProvider.html5Mode(true);
 

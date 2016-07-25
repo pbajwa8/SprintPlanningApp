@@ -74,7 +74,7 @@ angular.module('IterationsService', []).factory('Iterations', function($q, $http
 
 	var sendMeetingInvite = function(teamMemberEmail, iterationID) {
 
-		var urlToSend = "http://sprintplanning.herokuapp.com/join-meeting/" + iterationID
+		var urlToSend = "https://sprintplanning.herokuapp.com/join-meeting/" + iterationID
 
 		var data = {email: teamMemberEmail, url: urlToSend};
 
@@ -152,7 +152,11 @@ angular.module('IterationsService', []).factory('Iterations', function($q, $http
 		firebase.database().ref('iterations/' + iterationID + '/storiesObject/' + "stories").push({
 			title: title,
 			polling: false,
-			finishedPolling: false
+			finishedPolling: false,
+			finishedReview: false,
+			estimationPolling: false,
+			finishedEstimationPolling: false,
+			finishedEstimationReview: false
 		})
 		.catch(function(error){
 				return error
@@ -270,6 +274,139 @@ angular.module('IterationsService', []).factory('Iterations', function($q, $http
 
 	}
 
+	var getTasks = function(iterationID, storyID) {
+		var deferred = $q.defer();
+
+		firebase.database().ref('iterations/' + iterationID + '/storiesObject/stories/' + storyID + '/tasks').once("value")
+			.then(function(dataSnapshot) {
+				var tasks = dataSnapshot.val();
+				deferred.resolve(tasks);
+			})
+			.catch(function(error) {
+				deferred.reject(error);
+			});
+
+		return deferred.promise;
+	}
+
+	var getIterationHeader = function(iterationID) {
+
+		var deferred = $q.defer();
+
+		firebase.database().ref('iterations/' + iterationID).once("value")
+			.then(function(dataSnapshot) {
+				var iteration = dataSnapshot.val();
+				var iterationHeader = {
+					startDate: iteration.startDate,
+					endDate: iteration.endDate,
+					title: iteration.title,
+					owner: iteration.owner
+				}
+				deferred.resolve(iterationHeader);
+			})
+			.catch(function(error) {
+				deferred.reject(error);
+			});
+
+		return deferred.promise;
+
+	}
+
+	var updateTasks = function(iterationID, storyID, tasksObject) {
+
+		firebase.database().ref('iterations/' + iterationID + '/storiesObject/stories/' + storyID).update({
+			tasks: tasksObject
+		})
+		.catch(function(error){
+			console.log(error)
+		})
+
+	}
+
+	var endTaskReview = function(iterationID, storyID) {
+		firebase.database().ref('iterations/' + iterationID + '/storiesObject/stories/' + storyID).update({
+			finishedReview: true
+		})
+		.catch(function(error){
+			console.log(error)
+		})
+	}
+
+	var startEstimationPolling = function(iterationID, storyID) {
+		firebase.database().ref('iterations/' + iterationID + '/storiesObject/stories/' + storyID).update({
+			estimationPolling: true
+		})
+		.catch(function(error){
+			console.log(error)
+		})
+	}
+
+	var stopEstimationPolling = function(iterationID, storyID) {
+		firebase.database().ref('iterations/' + iterationID + '/storiesObject/stories/' + storyID).update({
+			estimationPolling: false
+		})
+		.catch(function(error){
+			console.log(error)
+		})
+	}
+	
+	var endEstimationPolling = function(iterationID, storyID) {
+		firebase.database().ref('iterations/' + iterationID + '/storiesObject/stories/' + storyID).update({
+			finishedEstimationPolling: true
+		})
+		.catch(function(error){
+			console.log(error)
+		})
+	}
+
+	var endEstimationReview = function(iterationID, storyID) {
+		firebase.database().ref('iterations/' + iterationID + '/storiesObject/stories/' + storyID).update({
+			finishedEstimationReview: true
+		})
+		.catch(function(error){
+			console.log(error)
+		})
+	}
+
+	var saveEstimation = function(iterationID, storyID, estimation) {
+
+		firebase.database().ref('iterations/' + iterationID + '/storiesObject/stories/' + storyID + '/estimations').push({estimation})
+		.catch(function(error){
+			console.log(error)
+		})
+
+	}
+
+	var saveCalculatedEstimation = function(iterationID, storyID) {
+
+		firebase.database().ref('iterations/' + iterationID + '/storiesObject/stories/' + storyID + '/estimations').once("value")
+			.then(function(dataSnapshot) {
+				var estimations = dataSnapshot.val();
+				var total = 0
+				for (key in estimations) {
+					var estimate = estimations[key].estimation
+					total = total + estimate
+				}
+				var average = Math.round(total/Object.keys(estimations).length);
+				updateEstimation(iterationID, storyID, average);
+			})
+			.catch(function(error) {
+				deferred.reject(error);
+			});
+
+	}
+
+	var updateEstimation = function(iterationID, storyID, estimation) {
+		firebase.database().ref('iterations/' + iterationID + '/storiesObject/stories/' + storyID).update({
+			estimation: estimation
+		})
+		.catch(function(error){
+			console.log(error)
+		})
+
+
+	}
+
 	return {
 
 		addIteration: addIteration,
@@ -289,7 +426,18 @@ angular.module('IterationsService', []).factory('Iterations', function($q, $http
 		stopTaskPolling: stopTaskPolling,
 		endTaskPolling: endTaskPolling,
 		updateCurrentStory: updateCurrentStory,
-		saveTasks: saveTasks
+		saveTasks: saveTasks,
+		getIterationHeader: getIterationHeader,
+		updateTasks: updateTasks,
+		getTasks: getTasks,
+		endTaskReview: endTaskReview,
+		startEstimationPolling,
+		stopEstimationPolling,
+		endEstimationPolling,
+		endEstimationReview,
+		saveEstimation,
+		saveCalculatedEstimation,
+		updateEstimation
 	}
 
 });
