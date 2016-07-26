@@ -25,9 +25,9 @@ angular.module('AddIterationCtrl', []).controller('AddIterationController', func
 
 		var user = firebase.auth().currentUser;
 
-		var startDate = $scope.startDate.toString();
+		var startDate = $scope.startDate.toLocaleDateString();
 
-		var endDate = $scope.endDate.toString();
+		var endDate = $scope.endDate.toLocaleDateString();
 
 		for (i = 0; i < $scope.teamMembers.length; i++) {
 			$scope.teamMemberEmails.push($scope.teamMembers[i].email)

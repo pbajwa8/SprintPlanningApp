@@ -5,8 +5,8 @@
 
 	<div class="panel-body">
 		<h4 class="text-center">{{iterationTitle}}</h4>
-		<h5 class="text-center">{{startDate}}</h5>
-		<h5 class="text-center">{{endDate}}</h5>
+		<h5 class="text-center">Start Date: {{startDate}}</h5>
+		<h5 class="text-center">End Date: {{endDate}}</h5>
 
 		<div ng-show="isOwner">
 			<form role="form" ng-submit="confirmStories()">
@@ -22,6 +22,7 @@
 			<ul class="list-group">
 				<li class="list-group-item" ng-repeat="(storyId, value) in workingStories">
 					{{value.title}}
+					<hr>
 				</li>
 			</ul>
 		</div>

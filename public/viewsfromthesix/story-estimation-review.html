@@ -6,15 +6,16 @@
 	<div class="panel-body">
 
 		<h4 class="text-center">{{iterationTitle}}</h4>
-		<h5 class="text-center">{{startDate}}</h5>
-		<h5 class="text-center">{{endDate}}</h5>
+		<h5 class="text-center">Start Date: {{startDate}}</h5>
+		<h5 class="text-center">End Date: {{endDate}}</h5>
 		<hr>
-		<h3 class="text-center">{{storyTitle}}</h3>
+		<h3 class="text-center">Story: {{storyTitle}}</h3>
 
 		<div>
 			<ul class="list-group">
 				<li class="list-group-item" ng-repeat="(taskId, value) in tasks">
 					{{value.title}}
+					<hr>
 				</li>
 			</ul>
 		</div>

@@ -5,8 +5,8 @@
 	<div class="panel-body">
 
 		<h3 class="text-center">{{iterationTitle}}</h3>
-		<h4 class="text-center">{{startDate}}</h4>
-		<h4 class="text-center">{{endDate}}</h4>
+		<h4 class="text-center">Start Date: {{startDate}}</h4>
+		<h4 class="text-center">End Date: {{endDate}}</h4>
 		<hr>
 		<h3 class="text-center">Story: {{storyTitle}}</h3>
 
@@ -18,7 +18,8 @@
 		<div ng-hide="isOwner">
 			<ul class="list-group" ng-show="polling">
 				<li class="list-group-item" ng-repeat="task in userTasks track by $index">
-					{{task}}	
+					{{task}}
+					<hr>	
 				</li>
 			</ul>
 		</div>
