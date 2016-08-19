@@ -7,7 +7,7 @@ module.exports = function(app) {
 	var bodyParser = require('body-parser');
 	var request = require('request');
 	var helper = require('sendgrid').mail
-	var sendgrid = require('sendgrid').SendGrid("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");
+	var sendgrid = require("sendgrid")("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");
 
 	app.use(bodyParser.json())
 

@@ -4,8 +4,6 @@ var app            = express();
 var bodyParser     = require('body-parser');
 var methodOverride = require('method-override');
 var request 	   = require('request');
-var helper 		   = require('sendgrid').mail
-var sendgrid 	   = require('sendgrid').SendGrid("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");
 
 // configuration ===========================================
 

@@ -1,1 +1,1 @@
-angular.module('sprintPlanningApp', ['ngRoute', 'appRoutes', 'ngCookies', 'HomeCtrl', 'AddIterationCtrl', 'StartMeetingCtrl', 'IterationsService', 'JoinMeetingCtrl', 'UserStoriesCtrl', 'timer', 'ReviewStoriesCtrl', 'StoryTasksCtrl', 'TaskPollingCtrl', 'ReviewTasksCtrl', 'StoryEstimationPollingCtrl', 'StoryEstimationReviewCtrl']);
+angular.module('sprintPlanningApp', ['ngRoute', 'appRoutes', 'HomeCtrl', 'SprintsService']);

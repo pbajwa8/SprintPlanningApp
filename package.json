@@ -1,9 +1,11 @@
 {
-  "name": "starter-node-angular",
+  "name": "sprint-planning-app",
   "main": "server.js",
   "dependencies": {
     "body-parser": "~1.4.2",
     "express": "~4.5.1",
-    "method-override": "~2.0.2"
+    "method-override": "~2.0.2",
+    "request": "~2.74.0",
+    "sendgrid": "~4.0.1"
   }
 }
