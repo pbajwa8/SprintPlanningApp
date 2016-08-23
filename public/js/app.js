@@ -1,1 +1,1 @@
-angular.module('sprintPlanningApp', ['ngRoute', 'appRoutes', 'HomeCtrl', 'SprintsService']);
+angular.module('sprintPlanningApp', ['ngRoute', 'appRoutes', 'firebase', 'ngFileUpload', 'HomeCtrl', 'SprintsService', 'AddSprintCtrl', 'StoriesService']);

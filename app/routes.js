@@ -8,8 +8,26 @@ module.exports = function(app) {
 	var request = require('request');
 	var helper = require('sendgrid').mail
 	var sendgrid = require("sendgrid")("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");
+	var XLSX = require("xlsx");
+	var multiparty = require('connect-multiparty')
 
 	app.use(bodyParser.json())
+
+	var multipartyMiddleware = multiparty()
+	
+	app.post('/parse-stories-doc', multipartyMiddleware, function (req, res) {
+		var file = req.files.file
+		var workbook = XLSX.readFile(file.path)
+		var worksheet = workbook.Sheets[workbook.SheetNames[0]]
+		var storiesArray = XLSX.utils.sheet_to_json(worksheet)
+
+		for (i in storiesArray) {
+			var story = storiesArray[i]
+			story["Status"] = "created"
+		}
+
+		res.send(storiesArray)
+	});
 
 	app.post('/send-invite', function (req, res) {
 		data = req.body
@@ -28,7 +46,7 @@ module.exports = function(app) {
   			res.send(response)
   		})
 	});
-
+     
 	// frontend routes =========================================================
 	// route to handle all angular requests
 

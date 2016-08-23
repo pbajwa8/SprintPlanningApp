@@ -1,19 +1,25 @@
-angular.module('SprintsService', []).factory('Sprints', function($q, $http) {
+angular.module('SprintsService', []).factory('Sprints', function($q, $http, $firebaseArray, Stories) {
 
-	var generateUUID = function() {
+	var rootSprintsRef = firebase.database().ref("sprints")
 
-		var d = new Date().getTime();
-		var uuid = 'xxxxxxxxxxxx4xxxyxxxxxxxxxxxxxxx'.replace(/[xy]/g,function(c) {
-	    	var r = (d + Math.random()*16)%16 | 0;
-	    	d = Math.floor(d/16);
-	    	return (c=='x' ? r : (r&0x7|0x8)).toString(16);
-		});
-		return uuid.toUpperCase();
+	var saveSprint = function(title, owner, startDate, endDate, team, storiesData) {
+
+		var sprintObj = {"title": title, "owner": owner, "status": "created", "startDate": startDate, "endDate": endDate, "team": team}
+
+		var sprintId = rootSprintsRef.push().key
+
+		rootSprintsRef.child(sprintId).update(sprintObj).catch(function(error){
+			console.log(error)
+		}).then(function(data) {
+			Stories.saveStoriesFromDoc(storiesData, sprintId)
+		})
+
+		return sprintId
 	}
 
 	return {
 
-		generateUUID: generateUUID
+		saveSprint: saveSprint
 
 	}
 
