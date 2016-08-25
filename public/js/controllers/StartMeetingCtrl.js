@@ -1,4 +1,4 @@
-angular.module('StartMeetingCtrl', []).controller('StartMeetingController', function($scope, $location, Iterations, $cookies) {
+angular.module('StartMeetingCtrl', []).controller('StartMeetingController', function($scope, $location, Iterations) {
 
     $scope.iterationTitle;
     $scope.startDate;
@@ -10,12 +10,7 @@ angular.module('StartMeetingCtrl', []).controller('StartMeetingController', func
     $scope.teamPresent = false
     $scope.isOwner = false
 
-    currentIterationID = $cookies.get("current_iteration");
-
-    if (currentIterationID == null || currentIterationID == undefined) {
-        $cookies.put("current_iteration", $location.path().split('/')[2]);
-        currentIterationID = $location.path().split('/')[2]
-    }
+    var currentIterationID = $location.path().split('/')[2]
 
     var checkOwner = function() {
       var user = firebase.auth().currentUser;

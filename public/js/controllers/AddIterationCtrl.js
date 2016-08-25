@@ -1,4 +1,4 @@
-angular.module('AddIterationCtrl', []).controller('AddIterationController', function($scope, $location, Iterations, $cookies) {
+angular.module('AddIterationCtrl', []).controller('AddIterationController', function($scope, $location, Iterations) {
 
 	$scope.iterationTitle
 	$scope.startDate
@@ -34,8 +34,6 @@ angular.module('AddIterationCtrl', []).controller('AddIterationController', func
 		}
 
 		var itID = Iterations.addIteration(user.uid, $scope.iterationTitle, startDate, endDate, $scope.teamMemberEmails)
-
-		$cookies.put("current_iteration", itID);
 
 		var path = '/start-meeting/'.concat(itID);
 

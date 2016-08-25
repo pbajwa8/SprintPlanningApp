@@ -1,4 +1,4 @@
-angular.module('JoinMeetingCtrl', []).controller('JoinMeetingController', function($scope, $location, $cookies, Iterations) {
+angular.module('JoinMeetingCtrl', []).controller('JoinMeetingController', function($scope, $location, Iterations) {
 
 	var currentIterationID = $location.path().split('/')[2]
 
