@@ -2,7 +2,9 @@ angular.module('JoinMeetingCtrl', []).controller('JoinMeetingController', functi
 
 	var currentIterationID = $location.path().split('/')[2]
 
-	$cookies.put("current_iteration", currentIterationID);
+	firebase.auth().signInAnonymously().catch(function(error) {
+  		console.log("ERROR")
+	});
 
 	$scope.email
 
